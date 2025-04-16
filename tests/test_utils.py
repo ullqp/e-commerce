@@ -30,7 +30,7 @@ def category_1() -> Category:
     return Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        ["Samsung", "Iphone", "Xiaomi"],
+        [],
     )
 
 
@@ -40,11 +40,10 @@ def test_init_category(category_1: Category) -> None:
         category_1.description
         == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
     )
-    assert category_1.products == ["Samsung", "Iphone", "Xiaomi"]
 
 
 def test_product_count(category_1: Category) -> None:
-    assert Category.product_count == 3
+    assert Category.product_count == 0
 
 
 @pytest.fixture()
@@ -65,3 +64,25 @@ def categories() -> tuple[Category, Category]:
 
 def test_categories(categories: Category) -> None:
     assert Category.category_count == 2
+
+
+def test_add_product(product_1: Product, category_1: Category) -> None:
+
+    category_1.add_product(product_1)
+    assert category_1.product_count == 1
+    assert "Samsung Galaxy S23 Ultra" in category_1.products
+
+
+def test_new_product(product_1: Product) -> None:
+    new_product = Product.new_product(
+        {"name": "Iphone 15", "description": "512GB, Gray space", "price": 210000.0, "quantity": 8}
+    )
+    assert new_product.name == "Iphone 15"
+    assert new_product.description == "512GB, Gray space"
+    assert new_product.price == 210000.0
+    assert new_product.quantity == 8
+
+    def test_price(product_1, capsys) -> None:
+        product_1.price = -100
+        captured = capsys.readouterr()
+        assert captured.out == "Цена не должна быть нулевая или отрицательная\n"
