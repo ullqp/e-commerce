@@ -20,6 +20,12 @@ class Product:
 
         Product.all_products.append(self)
 
+    def __str__(self) -> str:
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other) -> int:
+        return int(self.price * self.quantity + other.price + other.quantity)
+
     @property
     def price(self) -> float:
         return self.__price
@@ -63,6 +69,8 @@ class Category:
     description: str
     __products: list
 
+    all_products_count = 0
+
     category_count = 0
     product_count = 0
 
@@ -75,6 +83,11 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products)
 
+    def __str__(self) -> str:
+        for product in self.__products:
+            self.all_products_count += product.quantity
+        return f"{self.name}, количество продуктов: {self.all_products_count} шт."
+
     def add_product(self, product: Product) -> None:
         self.__products.append(product)
         Category.product_count += 1
@@ -83,5 +96,32 @@ class Category:
     def products(self) -> str:
         result = ""
         for product in self.__products:
-            result += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+            result += str(product)
+            result += "\n"
         return result
+
+    @property
+    def products_list(self) -> list[Product]:
+        return self.__products
+
+
+class CategoryIterator:
+    """Итератор для переборов товаров одной категории."""
+
+    category: Category
+    all_products: list
+    current_index: int
+
+    def __init__(self, category: Category) -> None:
+        self.category = category
+        self.category_products = category.products_list
+
+    def __iter__(self):
+        self.current_index = -1
+        return self
+
+    def __next__(self) -> Product | None:
+        if self.current_index + 1 < len(self.category_products):
+            self.current_index += 1
+            return self.category_products[self.current_index]
+        raise StopIteration
