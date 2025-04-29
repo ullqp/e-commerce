@@ -24,7 +24,7 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other) -> int:
-        return int(self.price * self.quantity + other.price + other.quantity)
+        return int(self.price * self.quantity + other.price * other.quantity)
 
     @property
     def price(self) -> float:
@@ -69,10 +69,9 @@ class Category:
     description: str
     __products: list
 
-    all_products_count = 0
-
-    category_count = 0
-    product_count = 0
+    all_products_count = 0  # Общее количество товаров в категории (по всем продуктам)
+    category_count = 0  # Счетчик категорий
+    product_count = 0  # Счетчик продуктов
 
     def __init__(self, name: str, description: str, products: list):
         """Метод, который инициализирует экземпляры класса."""
@@ -83,17 +82,25 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products)
 
-    def __str__(self) -> str:
+    def calculate_total_products(self) -> None:
+        """Пересчитывает общее количество товаров в категории (сумма quantity всех продуктов)."""
+        self.all_products_count = 0
         for product in self.__products:
             self.all_products_count += product.quantity
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление категории с количеством товаров."""
+        self.calculate_total_products()
         return f"{self.name}, количество продуктов: {self.all_products_count} шт."
 
-    def add_product(self, product: Product) -> None:
+    def add_product(self, product: "Product") -> None:
+        """Добавляет продукт в категорию."""
         self.__products.append(product)
         Category.product_count += 1
 
     @property
     def products(self) -> str:
+        """Возвращает строку с информацией о всех продуктах в категории."""
         result = ""
         for product in self.__products:
             result += str(product)
@@ -101,7 +108,8 @@ class Category:
         return result
 
     @property
-    def products_list(self) -> list[Product]:
+    def products_list(self) -> list["Product"]:
+        """Возвращает список продуктов в категории."""
         return self.__products
 
 
