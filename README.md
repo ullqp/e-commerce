@@ -25,6 +25,10 @@ git clone https://github.com/ullqp/e-commerce.git
 
 **LawnGrass** - категория газонной травы
 
+**BaseProduct** - родительский класс для класса продуктов
+
+**PrintMixin** - класс-миксин для класса продуктов
+
 ```python
 # Пример использования класса Product
 from src.utils import Product
