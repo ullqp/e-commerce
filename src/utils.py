@@ -138,8 +138,7 @@ class CategoryIterator:
             self.current_index += 1
             return self.category_products[self.current_index]
         raise StopIteration
-
-
+        
 class Smartphone(Product):
     """Класс для представления смартфонов."""
 
