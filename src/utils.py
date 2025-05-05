@@ -24,7 +24,9 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other) -> int:
-        return int(self.price * self.quantity + other.price * other.quantity)
+        if type(self) == type(other):
+            return int(self.price * self.quantity + other.price * other.quantity)
+        raise TypeError
 
     @property
     def price(self) -> float:
@@ -93,10 +95,13 @@ class Category:
         self.calculate_total_products()
         return f"{self.name}, количество продуктов: {self.all_products_count} шт."
 
-    def add_product(self, product: "Product") -> None:
+    def add_product(self, product: Any) -> None:
         """Добавляет продукт в категорию."""
-        self.__products.append(product)
-        Category.product_count += 1
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise TypeError
 
     @property
     def products(self) -> str:
@@ -133,3 +138,54 @@ class CategoryIterator:
             self.current_index += 1
             return self.category_products[self.current_index]
         raise StopIteration
+        
+class Smartphone(Product):
+    """Класс для представления смартфонов."""
+
+    efficiency: float
+    model: str
+    memory: int
+    color: str
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ) -> None:
+        """Метод, который инициализирует экземпляры класса."""
+
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс для представления газонной травы."""
+
+    country: str
+    germination_period: str
+    color: str
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
+        """Метод, который инициализирует экземпляры класса."""
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color

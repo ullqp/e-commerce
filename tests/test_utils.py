@@ -1,4 +1,7 @@
-from src.utils import Category, Product
+
+import pytest
+
+from src.utils import Category, LawnGrass, Product, Smartphone
 
 
 def test_init_product(product_1: Product) -> None:
@@ -55,9 +58,40 @@ def test_str_category(category_1: Category) -> None:
 
 def test_add_products(product_1: Product, product_2: Product) -> None:
     res = product_1 + product_2
-    assert res == 931014
+    assert res == 1334000
 
 
 def test_category_iterator(category_iterator: list) -> None:
     assert category_iterator[0].name == "Samsung Galaxy S23 Ultra"
     assert category_iterator[1].name == "Xiaomi Redmi Note 11"
+
+
+def test_init_smartphone(smartphone1: Smartphone) -> None:
+    assert smartphone1.name == "Iphone 15"
+    assert smartphone1.description == "512GB, Gray space"
+    assert smartphone1.price == 210000.0
+    assert smartphone1.quantity == 8
+    assert smartphone1.efficiency == 98.2
+    assert smartphone1.model == "15"
+    assert smartphone1.memory == 512
+    assert smartphone1.color == "Gray space"
+
+
+def test_init_lawngrass(grass1: LawnGrass) -> None:
+    assert grass1.name == "Газонная трава"
+    assert grass1.description == "Элитная трава для газона"
+    assert grass1.price == 500.0
+    assert grass1.quantity == 20
+    assert grass1.country == "Россия"
+    assert grass1.germination_period == "7 дней"
+    assert grass1.color == "Зеленый"
+
+
+def test_add_not_products(smartphone1: Smartphone, grass1: LawnGrass) -> None:
+    with pytest.raises(TypeError):
+        res = smartphone1 + grass1
+
+
+def test_add_not_product(category_1: Category) -> None:
+    with pytest.raises(TypeError):
+        category_1.add_product("abc")

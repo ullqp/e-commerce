@@ -2,7 +2,7 @@ from typing import Generator
 
 import pytest
 
-from src.utils import Category, CategoryIterator, Product
+from src.utils import Category, CategoryIterator, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture(autouse=True)
@@ -61,3 +61,15 @@ def categories() -> tuple[Category, Category]:
 def category_iterator(category_3: Category) -> list:
     category_iterator = CategoryIterator(category_3)
     return list(category_iterator)
+
+
+@pytest.fixture
+def smartphone1() -> Smartphone:
+    smartphone1 = Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+    return smartphone1
+
+
+@pytest.fixture
+def grass1() -> LawnGrass:
+    grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    return grass1

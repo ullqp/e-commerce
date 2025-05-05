@@ -21,6 +21,10 @@ git clone https://github.com/ullqp/e-commerce.git
 
 **Category** - категория товаров
 
+**Smartphone** - категория смартфонов
+
+**LawnGrass** - категория газонной травы
+
 ```python
 # Пример использования класса Product
 from src.utils import Product
@@ -50,7 +54,39 @@ smartphones = Category(
     products=phones
 )
 
-print(len(smartphones.products))  
+print(len(smartphones.products))
+
+# Пример использования класса Smartphone
+from src.utils import Smartphone
+
+# Создание смартфона
+iphone15 = Smartphone(
+    name="iPhone 15 Pro",
+    description="Флагманский смартфон Apple",
+    price=1299.99,
+    quantity=10, 
+    efficiency= 98.2, 
+    model = "15",
+    memory = 512, 
+    color = "Gray space"
+)
+
+print(iphone15.model) 
+
+# Пример использования класса LawnGrass
+from src.utils import LawnGrass
+
+# Создание газонной травы
+grass = LawnGrass(
+    "Газонная трава", 
+    "Элитная трава для газона", 
+    500.0, 
+    20, 
+    "Россия", 
+    "7 дней", 
+    "Зеленый")
+
+print(grass.color) 
 ```
 
 
@@ -62,7 +98,7 @@ print(len(smartphones.products))
 pytest
 ```
 Тесты покрывают следующие модули и функции:
-- `utils`: классы `Product` и `Category`.
+- `utils`: классы `Product` и `Category`, `Smartphone` и `LawnGrass`'.
 
 Покрытие тестами составляет более 80% кода проекта.
 
