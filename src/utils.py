@@ -1,7 +1,9 @@
 from typing import Any
 
+from src.base import BaseProduct, PrintMixin
 
-class Product:
+
+class Product(BaseProduct, PrintMixin):
     """Класс для представления продуктов."""
 
     name: str
@@ -19,6 +21,7 @@ class Product:
         self.quantity = quantity
 
         Product.all_products.append(self)
+        super().__init__()
 
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -138,7 +141,8 @@ class CategoryIterator:
             self.current_index += 1
             return self.category_products[self.current_index]
         raise StopIteration
-        
+
+
 class Smartphone(Product):
     """Класс для представления смартфонов."""
 

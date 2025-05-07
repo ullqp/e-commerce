@@ -1,4 +1,3 @@
-
 import pytest
 
 from src.utils import Category, LawnGrass, Product, Smartphone
