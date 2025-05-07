@@ -88,9 +88,23 @@ def test_init_lawngrass(grass1: LawnGrass) -> None:
 
 def test_add_not_products(smartphone1: Smartphone, grass1: LawnGrass) -> None:
     with pytest.raises(TypeError):
-        res = smartphone1 + grass1
+        smartphone1 + grass1
 
 
 def test_add_not_product(category_1: Category) -> None:
     with pytest.raises(TypeError):
         category_1.add_product("abc")
+
+
+def test_zero_exception(capsys) -> None:
+    with pytest.raises(ValueError) as e:
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+    assert str(e.value) == "Товар с нулевым количеством не может быть добавлен"
+
+
+def test_middle_price(category_3: Category) -> None:
+    assert category_3.middle_price() == 11105
+
+
+def test_middle_price_exception(category_1: Category) -> None:
+    assert category_1.middle_price() == 0
